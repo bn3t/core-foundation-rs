@@ -572,6 +572,14 @@ impl CGDisplayMode {
             0
         }
     }
+
+    pub fn io_display_mode_id(&self) -> i32 {
+        unsafe { CGDisplayModeGetIODisplayModeID(self.as_ptr()) }
+    }
+
+    pub fn is_usable_for_desktop_gui(&self) -> bool {
+        unsafe { CGDisplayModeIsUsableForDesktopGUI(self.as_ptr()) != 0 }
+    }
 }
 
 #[link(name = "CoreGraphics", kind = "framework")]
@@ -639,6 +647,8 @@ extern "C" {
     pub fn CGDisplayModeGetRefreshRate(mode: ::sys::CGDisplayModeRef) -> libc::c_double;
     pub fn CGDisplayModeGetIOFlags(mode: ::sys::CGDisplayModeRef) -> u32;
     pub fn CGDisplayModeCopyPixelEncoding(mode: ::sys::CGDisplayModeRef) -> CFStringRef;
+    pub fn CGDisplayModeGetIODisplayModeID(mode: ::sys::CGDisplayModeRef) -> i32;
+    pub fn CGDisplayModeIsUsableForDesktopGUI(mode: ::sys::CGDisplayModeRef) -> boolean_t;
 
     pub fn CGDisplayCopyAllDisplayModes(
         display: CGDirectDisplayID,
